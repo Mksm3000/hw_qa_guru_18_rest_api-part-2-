@@ -30,16 +30,11 @@ class CartPage:
             browser.element(by.xpath(
                 f"//a[@class='qty nobr' and contains(text(), '{new_product.count}')]"))
 
-    # def remove_product_from_cart(self, new_product: ProductPage):
-    #     with allure.step(f'Remove {new_product.name} from cart'):
-    #         new_product_row = browser.element('.cart-item-row').element(
-    #             '.product').should(have.text(new_product.name))
-    #         remove_button = new_product_row.element('.remove-from-cart').element(
-    #             by.name('removefromcart'))
-    #         assert remove_button
-    #         remove_button.click()
-    #         browser.driver.refresh()
-    #         browser.should(have.no.text(new_product.name))
+    def remove_product_from_cart(self, new_product: ProductPage):
+        with allure.step(f'Remove {new_product.name} from cart'):
+            new_product_row = browser.element('.cart-item-row').should(have.text(new_product.name))
+            new_product_row.element('.remove-from-cart').element(by.name('removefromcart')).click()
+            browser.with_(timeout=5).should(have.no.text(new_product.name))
 
 
 cart = CartPage()
